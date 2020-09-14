@@ -35,9 +35,7 @@ class HlsStreamSelector extends Plugin {
 
     this.player.on("loadedmetadata", () => {
       // make sure there is HLS before continuing
-      this.hls = this.player.tech({ IWillNotUseThisInPlugins: true }).hls;
-
-      if (this.hls) {
+      if (this.player.tech({ IWillNotUseThisInPlugins: true }).hls) {
         // add the class to the player
         this.player.addClass("vjs-hls-stream-selector");
 
