@@ -11,6 +11,9 @@ export default class extends MenuButton {
     // set the control text
     this.controlText("Quality");
 
+    // add a class to the button
+    this.addClass("vjs-hls-stream-selector-button");
+
     // add the menu button icon
     this.$(".vjs-icon-placeholder").classList.add("vjs-icon-cog");
 
