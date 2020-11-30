@@ -31,9 +31,15 @@ export default class extends MenuButton {
   }
 
   createItems() {
-    // create menu items for each representation
-    const items = this.player()
-      .tech_.hls.representations()
+    const representations = this.player().tech_.hls.representations();
+
+    // filter out duplicate bandwidths and create menu items for each representation
+    const items = representations
+      .filter(
+        ({ bandwidth }, index) =>
+          representations.findIndex((rep) => rep.bandwidth === bandwidth) ===
+          index
+      )
       .map(
         ({ id, bandwidth }) =>
           new MenuItem(this.player(), {
