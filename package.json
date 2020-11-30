@@ -1,6 +1,6 @@
 {
   "name": "videojs-hls-stream-selector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Adds a bitrate selector menu to the VideoJS player for HLS sources",
   "main": "dist/videojs-hls-stream-selector.cjs.js",
   "module": "dist/videojs-hls-stream-selector.es.js",
