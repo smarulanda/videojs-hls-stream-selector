@@ -4,8 +4,14 @@ const MenuItem = videojs.getComponent("MenuItem");
 
 export default class extends MenuItem {
   constructor(player, { id, bandwidth }) {
+    let label = id;
+
+    if (bandwidth) {
+      label = parseFloat((bandwidth / 1000000).toFixed(1)) + " mbps";
+    }
+
     super(player, {
-      label: bandwidth ? `${Math.round(bandwidth / 1000)} kbps` : id,
+      label,
       selectable: true,
       selected: false,
     });

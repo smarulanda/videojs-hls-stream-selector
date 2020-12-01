@@ -14,7 +14,7 @@
       controls
     >
       <source
-        src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+        src="https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8"
         type="application/x-mpegURL"
       />
     </video>
@@ -22,12 +22,11 @@
       <li><a href="/test/debug.html">Run unit tests in browser.</a></li>
     </ul>
     <script src="node_modules/video.js/dist/video.js"></script>
-    <script src="node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
     <script src="dist/videojs-hls-stream-selector.js"></script>
     <script>
       (function (window, videojs) {
         var examplePlayer = (window.examplePlayer = videojs(
-          "videojs-hls-stream-selector-player"
+          "videojs-hls-stream-selector-player", { liveui: true }
         ));
 
         var hlsStreamSelector = (window.hlsStreamSelector = examplePlayer.hlsStreamSelector());

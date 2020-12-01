@@ -31,7 +31,9 @@ export default class extends MenuButton {
   }
 
   createItems() {
-    const representations = this.player().tech_.hls.representations();
+    const representations = this.player()
+      .tech({ IWillNotUseThisInPlugins: true })
+      .vhs.representations();
 
     // filter out duplicate bandwidths and create menu items for each representation
     const items = representations
@@ -67,7 +69,8 @@ export default class extends MenuButton {
 
     // enable/disable the appropriate representations
     this.player()
-      .tech_.hls.representations()
+      .tech({ IWillNotUseThisInPlugins: true })
+      .vhs.representations()
       .forEach((rep) => rep.enabled(id === "auto" || rep.id === id));
   }
 }
