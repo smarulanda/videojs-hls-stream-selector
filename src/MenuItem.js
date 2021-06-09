@@ -3,13 +3,7 @@ import videojs from "video.js";
 const MenuItem = videojs.getComponent("MenuItem");
 
 export default class extends MenuItem {
-  constructor(player, { id, bandwidth }) {
-    let label = id;
-
-    if (bandwidth) {
-      label = parseFloat((bandwidth / 1000000).toFixed(1)) + " mbps";
-    }
-
+  constructor(player, { id, bandwidth, label }) {
     super(player, {
       label,
       selectable: true,

@@ -35,27 +35,38 @@ export default class extends MenuButton {
       .tech({ IWillNotUseThisInPlugins: true })
       .vhs.representations();
 
-    // filter out duplicate bandwidths and create menu items for each representation
+    // sort bandwidths from high to low, then map the MenuItems
     const items = representations
-      .filter(
-        ({ bandwidth }, index) =>
-          representations.findIndex((rep) => rep.bandwidth === bandwidth) ===
-          index
-      )
-      .map(
-        ({ id, bandwidth }) =>
-          new MenuItem(this.player(), {
-            id,
-            bandwidth,
-          })
-      )
-      .sort((a, b) => b.bandwidth - a.bandwidth);
+      .sort((a, b) => b.bandwidth - a.bandwidth)
+      .map(({ id, bandwidth }, index) => {
+        const options = { id, bandwidth };
+
+        // for 2 or 3 representations show high/(medium)/low, otherwise show bandwidth
+        switch (representations.length) {
+          case 2:
+            options.label = index === 0 ? "High" : "Low";
+            break;
+
+          case 3:
+            options.label =
+              index === 0 ? "High" : index === 1 ? "Medium" : "Low";
+            break;
+
+          default:
+            options.label =
+              parseFloat((bandwidth / 1000000).toFixed(1)) + " mbps";
+            break;
+        }
+
+        return new MenuItem(this.player(), options);
+      });
 
     // add an "auto" option for streams with 2+ bandwidths
     if (items.length > 1) {
       items.push(
         new MenuItem(this.player(), {
           id: "auto",
+          label: "auto",
         })
       );
     }
