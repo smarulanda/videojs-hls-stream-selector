@@ -31,35 +31,42 @@ export default class extends MenuButton {
   }
 
   createItems() {
+    // de-duped and sorted representations
     const representations = this.player()
       .tech({ IWillNotUseThisInPlugins: true })
-      .vhs.representations();
+      .vhs.representations()
+      .filter(({ bandwidth }, index, representations) => {
+        // filter out duplicate bandwidths
+        const foundIndex = representations.findIndex(
+          (representation) => representation.bandwidth === bandwidth
+        );
 
-    // sort bandwidths from high to low, then map the MenuItems
-    const items = representations
-      .sort((a, b) => b.bandwidth - a.bandwidth)
-      .map(({ id, bandwidth }, index) => {
-        const options = { id, bandwidth };
+        return foundIndex === index;
+      })
+      .sort((a, b) => b.bandwidth - a.bandwidth);
 
-        // for 2 or 3 representations show high/(medium)/low, otherwise show bandwidth
-        switch (representations.length) {
-          case 2:
-            options.label = index === 0 ? "High" : "Low";
-            break;
+    // map the representations into MenuItem objects
+    const items = representations.map(({ id, bandwidth }, index) => {
+      const options = { id, bandwidth };
 
-          case 3:
-            options.label =
-              index === 0 ? "High" : index === 1 ? "Medium" : "Low";
-            break;
+      // for 2 or 3 representations show high/(medium)/low, otherwise show bandwidth
+      switch (representations.length) {
+        case 2:
+          options.label = index === 0 ? "High" : "Low";
+          break;
 
-          default:
-            options.label =
-              parseFloat((bandwidth / 1000000).toFixed(1)) + " mbps";
-            break;
-        }
+        case 3:
+          options.label = index === 0 ? "High" : index === 1 ? "Medium" : "Low";
+          break;
 
-        return new MenuItem(this.player(), options);
-      });
+        default:
+          options.label =
+            parseFloat((bandwidth / 1000000).toFixed(1)) + " mbps";
+          break;
+      }
+
+      return new MenuItem(this.player(), options);
+    });
 
     // add an "auto" option for streams with 2+ bandwidths
     if (items.length > 1) {
