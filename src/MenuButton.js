@@ -36,6 +36,11 @@ export default class extends MenuButton {
       .tech({ IWillNotUseThisInPlugins: true })
       .vhs.representations()
       .filter(({ bandwidth }, index, representations) => {
+        // filter out empty bandwidths
+        if (!bandwidth) {
+          return false;
+        }
+
         // filter out duplicate bandwidths
         const foundIndex = representations.findIndex(
           (representation) => representation.bandwidth === bandwidth
